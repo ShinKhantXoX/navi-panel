@@ -9,6 +9,7 @@ import { packageRoutes } from "./modules/package/packageRoute";
 import { tourRoutes } from "./modules/tours/tourRoute";
 import { itineraryRoutes } from "./modules/itinerary/ItineraryRoutes";
 import { visaRoutes } from "./modules/visa/visaRoutes";
+import { mediaRoute } from "./modules/media/mediaRoute";
 
 export const routers = createBrowserRouter([
   {
@@ -20,7 +21,8 @@ export const routers = createBrowserRouter([
       ...packageRoutes,
       ...tourRoutes,
       ...itineraryRoutes,
-      ...visaRoutes
+      ...visaRoutes,
+      ...mediaRoute
     ],
   },
   {
