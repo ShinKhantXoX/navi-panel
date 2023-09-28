@@ -1,4 +1,4 @@
-import { Card, Divider, Flex, Grid, Group, PasswordInput, Text, TextInput } from "@mantine/core"
+import { Button, Card, Divider, Flex, Grid, Group, PasswordInput, Text, TextInput } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { useEffect, useState } from "react";
 import { FormValidationMessage } from "../../../components/FormValidationMessage";
@@ -11,11 +11,12 @@ import { SaveButton } from "../../../components/SaveButton";
 import { useNavigate } from "react-router-dom";
 import { TextEditor } from "../../../components/TextEditor"
 import { NavButton } from "../../../components/NavButton";
+import { IconArrowLeft } from "@tabler/icons-react";
 
 export const CreateUser = () => {
     useDocumentTitle("New User");
 
-    const [name ,setName] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [role, setRole] = useState('');
@@ -25,11 +26,11 @@ export const CreateUser = () => {
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [payload, setPayload] = useState({
-        name : '',
-        email : '',
-        position : '',
-        password : '',
-        password_confirmation : ''
+        name: '',
+        email: '',
+        position: '',
+        password: '',
+        password_confirmation: ''
     });
     const [errors, setErrors] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -43,23 +44,23 @@ export const CreateUser = () => {
 
         const response = await postRequest("create-user", payload);
 
-        if(response && response.errors) {
+        if (response && response.errors) {
             setErrors(response.errors);
             setLoading(false);
             return;
         }
 
-        if(response && (response.status === 500 || response.status === 403)) {
+        if (response && (response.status === 500 || response.status === 403)) {
             dispatch(updateNotification({
                 title: "Error: User create",
                 message: response.message,
                 status: 'fail'
-            }));  
+            }));
             setLoading(false);
             return;
         }
 
-        if(response && response.status === 200) {
+        if (response && response.status === 200) {
             dispatch(updateNotification({
                 title: "User create",
                 message: response.message,
@@ -73,41 +74,38 @@ export const CreateUser = () => {
     useEffect(() => {
 
         setPayload({
-            name : name,
-            email : email,
-            position : position,
-            password : password,
-            password_confirmation : passwordConfirmation
+            name: name,
+            email: email,
+            position: position,
+            password: password,
+            password_confirmation: passwordConfirmation
         })
 
-    }, [name,email,phone,role,position,jd,password,passwordConfirmation])
+    }, [name, email, phone, role, position, jd, password, passwordConfirmation])
 
-    return(
+    return (
         <Grid>
-            <Grid.Col md={12}>
-                <Flex
-                    direction={"row"}
-                    justify={"flex-end"}
-                    align={"center"}
-                >
-                    <Group>
-                        <NavButton
-                            label="User List"
-                            click={() => navigate('/user')}
-                        />
-                    </Group>
-                </Flex>
-            </Grid.Col>
 
             <Grid.Col sm={12} md={4}>
                 <Card p={20} className="card-border">
+
                     <Card.Section my={20}>
-                        <Text sx={{ fontSize: 20, fontWeight: 500}}> Create User </Text>
+                        <Flex direction={"row"} justify={"space-between"} align={"center"}>
+                            <Text sx={{ fontSize: 20, fontWeight: 500 }}> Create User </Text>
+                            <Button
+                                variant="outline"
+                                color="grape.9"
+                                onClick={() => navigate("/user")}
+                            >
+                                <IconArrowLeft size={20} />
+                            </Button>
+                        </Flex>
+
                         <Divider variant="dashed" my={10} />
                     </Card.Section>
 
                     <Card.Section px={10}>
-                        <TextInput 
+                        <TextInput
                             my={10}
                             placeholder="Enter full name"
                             label="Name"
@@ -126,7 +124,7 @@ export const CreateUser = () => {
                             onChange={(e) => setEmail(e.target.value)}
                         />
 
-                        <TextInput 
+                        <TextInput
                             my={10}
                             placeholder="Enter position"
                             label="Position"
@@ -135,7 +133,7 @@ export const CreateUser = () => {
                             onChange={(e) => setPosition(e.target.value)}
                         />
 
-                        <PasswordInput 
+                        <PasswordInput
                             my={10}
                             placeholder="Enter password"
                             label="Password"
@@ -144,7 +142,7 @@ export const CreateUser = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
 
-                        <PasswordInput 
+                        <PasswordInput
                             my={10}
                             placeholder="Enter confirm password"
                             label="Password"
@@ -152,7 +150,7 @@ export const CreateUser = () => {
                             onChange={(e) => setPasswordConfirmation(e.target.value)}
                         />
 
-                        <SaveButton 
+                        <SaveButton
                             loading={loading}
                             submit={() => submitCreateUser()}
                         />

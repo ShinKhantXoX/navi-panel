@@ -1,4 +1,4 @@
-import { Card, Divider, Flex, Grid, Group, PasswordInput, Text, TextInput } from "@mantine/core"
+import { Button, Card, Divider, Flex, Grid, Group, PasswordInput, Text, TextInput } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { useEffect, useState } from "react";
 import { FormValidationMessage } from "../../../components/FormValidationMessage";
@@ -10,14 +10,15 @@ import { useNavigate } from "react-router-dom";
 import { TextEditor } from "../../../components/TextEditor"
 import { NavButton } from "../../../components/NavButton";
 import { FileButton } from "../../../components/FileButton";
+import { IconArrowLeft } from "@tabler/icons-react";
 
 export const CreateType = () => {
     useDocumentTitle("New Type");
 
-    const [name ,setName] = useState('');
+    const [name, setName] = useState('');
     const [payload, setPayload] = useState({
-        name : '',
-        photo : ''
+        name: '',
+        photo: ''
     });
     const [errors, setErrors] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -32,23 +33,23 @@ export const CreateType = () => {
 
         const response = await postRequest("type/create", payload);
 
-        if(response && response.errors) {
+        if (response && response.errors) {
             setErrors(response.errors);
             setLoading(false);
             return;
         }
 
-        if(response && (response.status === 500 || response.status === 403)) {
+        if (response && (response.status === 500 || response.status === 403)) {
             dispatch(updateNotification({
                 title: "Error: User create",
                 message: response.message,
                 status: 'fail'
-            }));  
+            }));
             setLoading(false);
             return;
         }
 
-        if(response && response.status === 200) {
+        if (response && response.status === 200) {
             dispatch(updateNotification({
                 title: "User create",
                 message: response.message,
@@ -62,43 +63,38 @@ export const CreateType = () => {
     useEffect(() => {
 
         setPayload({
-            name : name,
-            photo : imageSelect?.url
+            name: name,
+            photo: imageSelect?.url
         })
 
-    }, [name,imageSelect])
+    }, [name, imageSelect])
 
-    return(
+    return (
         <Grid>
-            <Grid.Col md={12}>
-                <Flex
-                    direction={"row"}
-                    justify={"flex-end"}
-                    align={"center"}
-                >
-                    <Group>
-                        <NavButton
-                            label="Type List"
-                            click={() => navigate('/type')}
-                        />
-                    </Group>
-                </Flex>
-            </Grid.Col>
 
             <Grid.Col sm={12} md={4}>
                 <Card p={20} className="card-border">
                     <Card.Section my={20}>
-                        <Text sx={{ fontSize: 20, fontWeight: 500}}> Create Type </Text>
+                        <Flex direction={"row"} justify={"space-between"} align={"center"}>
+                            <Text sx={{ fontSize: 20, fontWeight: 500 }}> Create Type </Text>
+                            <Button
+                                variant="outline"
+                                color="grape.9"
+                                onClick={() => navigate("/type")}
+                            >
+                                <IconArrowLeft size={20} />
+                            </Button>
+                        </Flex>
                         <Divider variant="dashed" my={10} />
                     </Card.Section>
 
                     <Card.Section px={10}>
 
-                        <FileButton 
-                        title={"File Upload"}
+                        <FileButton
+                            title={"File Upload"}
                         />
 
-                        <TextInput 
+                        <TextInput
                             my={10}
                             placeholder="Enter full name"
                             label="Name"
@@ -107,7 +103,7 @@ export const CreateType = () => {
                             onChange={(e) => setName(e.target.value)}
                         />
 
-                        <SaveButton 
+                        <SaveButton
                             loading={loading}
                             submit={() => submitCreateUser()}
                         />

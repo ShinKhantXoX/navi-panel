@@ -185,7 +185,7 @@ export const BookNowList = () => {
             <Grid.Col my={10}>
                 <Card p={20} className="card-border">
                     <Card.Section my={10}>
-                        <Text sx={{ fontSize: 20, fontWeight: 500}}> Itinerary List </Text>
+                        <Text sx={{ fontSize: 20, fontWeight: 500}}> Book Now List </Text>
                         <Divider my={10} variant="dashed" />
                     </Card.Section>
 
