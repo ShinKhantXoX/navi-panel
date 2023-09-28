@@ -9,12 +9,8 @@ export const bookNowRoutes = [
                 path: "",
                 element: <BookNowList />
             },
-            // {
-            //     path: "new",
-            //     element: <CreateItinerary />
-            // },
             {
-                path: ":id",
+                path: "media/",
                 element: <BookNowDetail />
             }
         ],

@@ -11,6 +11,7 @@ import { itineraryRoutes } from "./modules/itinerary/ItineraryRoutes";
 import { visaRoutes } from "./modules/visa/visaRoutes";
 import { mediaRoute } from "./modules/media/mediaRoute";
 import { bookNowRoutes } from "./modules/book-now/BookNowRoutes";
+import { recycleRoute } from "./modules/recycle/RecycleRoute";
 
 export const routers = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const routers = createBrowserRouter([
       ...visaRoutes,
       ...mediaRoute,
       ...bookNowRoutes,
+      ...recycleRoute,
     ],
   },
   {
