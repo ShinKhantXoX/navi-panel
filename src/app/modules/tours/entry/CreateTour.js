@@ -37,7 +37,7 @@ export const CreateTour = () => {
   const [service, setService] = useState("");
   const [mainPayload, setMainPayload] = useState({
     title: '',
-    package_id: '',
+    packages_id: '',
     photo: '',
     tour_code: '',
     destination: '',
@@ -124,7 +124,7 @@ export const CreateTour = () => {
 
   useEffect(() => {
     setMainPayload({
-      package_id: packageId,
+      packages_id: packageId,
       title: title,
       tour_code: tourCode,
       destination: destination,
