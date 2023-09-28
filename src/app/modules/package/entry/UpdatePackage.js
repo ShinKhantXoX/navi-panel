@@ -1,4 +1,4 @@
-import { Badge, Card, Center, Divider, FileInput, Flex, Image, Select, Text, TextInput } from "@mantine/core"
+import { Badge, Button, Card, Center, Divider, FileInput, Flex, Image, Select, Text, TextInput } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { useCallback, useEffect, useState } from "react";
 import { FormValidationMessage } from "../../../components/FormValidationMessage";
@@ -8,6 +8,7 @@ import { updateNotification } from "../../../redux/notificationSlice";
 import { SaveButton } from "../../../components/SaveButton";
 import { useNavigate } from "react-router-dom";
 import { FileButton } from "../../../components/FileButton";
+import { IconArrowLeft } from "@tabler/icons-react";
 
 export const UpdatePackage = ({ dataSource, update }) => {
     useDocumentTitle("Package Detail And Update");
@@ -16,12 +17,12 @@ export const UpdatePackage = ({ dataSource, update }) => {
     const [type, setType] = useState();
     const [typeId, setTypeId] = useState(dataSource?.types_id ? dataSource?.types_id : '');
     const [mainPayload, setMainPayload] = useState({
-        name : '',
-        types_id : '',
+        name: '',
+        types_id: '',
         photo: ''
-      })
+    })
     const [errors, setErrors] = useState(null);
-    const [id ,setId] = useState();
+    const [id, setId] = useState();
     const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
@@ -32,22 +33,22 @@ export const UpdatePackage = ({ dataSource, update }) => {
     const loadingData = useCallback(async () => {
         const response = await getReqeust("type/list");
 
-        
-        if(response && (response.status === 500 || response.status === 403)) {
+
+        if (response && (response.status === 500 || response.status === 403)) {
             dispatch(updateNotification({
                 title: "Error: Retrived country status",
                 message: response.message,
                 status: 'fail'
-            }));  
+            }));
             setLoading(false);
             return;
         }
 
-        if(response && response.status === 200) {
+        if (response && response.status === 200) {
             // setDescription(response.data.toString());
             let itemData = response?.data?.map((type) => {
                 return {
-                    value : type?.id,
+                    value: type?.id,
                     label: type?.name
                 }
             });
@@ -56,7 +57,7 @@ export const UpdatePackage = ({ dataSource, update }) => {
             return;
         }
 
-    },[dispatch]);
+    }, [dispatch]);
 
     const submitUpdateCountry = async () => {
         setLoading(true);
@@ -64,23 +65,23 @@ export const UpdatePackage = ({ dataSource, update }) => {
 
         const response = await putRequest(`package/update/${id?.id}`, mainPayload);
 
-        if(response && response.errors) {
+        if (response && response.errors) {
             setErrors(response.errors);
             setLoading(false);
             return;
         }
 
-        if(response && (response.status === 401 || response.status === 500 || response.status === 403)) {
+        if (response && (response.status === 401 || response.status === 500 || response.status === 403)) {
             dispatch(updateNotification({
                 title: "User Update",
                 message: response.message,
                 status: 'fail'
-            }));  
+            }));
             setLoading(false);
             return;
         }
 
-        if(response && response.status === 200) {
+        if (response && response.status === 200) {
             dispatch(updateNotification({
                 title: "Update",
                 message: response.message,
@@ -94,26 +95,26 @@ export const UpdatePackage = ({ dataSource, update }) => {
     }
 
     useEffect(() => {
-        if(dataSource) {
+        if (dataSource) {
             setId(dataSource);
         }
-    },[dataSource]);
-    
+    }, [dataSource]);
+
     useEffect(() => {
         setMainPayload({
-            name : payload,
-            types_id : typeId,
-            photo : selectImage?.url
+            name: payload,
+            types_id: typeId,
+            photo: selectImage?.url
         })
-    }, [selectImage, payload,typeId])
-  
+    }, [selectImage, payload, typeId])
+
     useEffect(() => {
         loadingData();
     }, [loadingData]);
 
     console.log(id);
 
-    return(
+    return (
         <Card p={20} className="card-border">
             <Card.Section my={20}>
                 <Flex
@@ -121,9 +122,16 @@ export const UpdatePackage = ({ dataSource, update }) => {
                     justify={"space-between"}
                     align={"center"}
                 >
-                    <Text sx={{ fontSize: 20, fontWeight: 500}}> Update Package </Text>
+                    <Text sx={{ fontSize: 20, fontWeight: 500 }}> Update Package </Text>
+                    <Button
+                        variant="outline"
+                        color="grape.9"
+                        onClick={() => navigate("/package")}
+                    >
+                        <IconArrowLeft size={20} />
+                    </Button>
                 </Flex>
-                
+
                 <Divider variant="dashed" my={10} />
             </Card.Section>
 
@@ -134,44 +142,44 @@ export const UpdatePackage = ({ dataSource, update }) => {
                         className="photo"
                         url={dataSource?.photo}
                         title={"File upload"}
-                        />
+                    />
                 </Center>
 
                 {
-                type && (
-                    <Select
-                    label="Choose Type"
-                    // description={description}
-                    dropdownPosition={"bottom"}
-                    data={type}
-                    // defaultValue={dataSource?.country_id}
-                    nothingFound="No City Found"
-                    clearable
-                    defaultValue={dataSource?.types_id}
-                    name="country_id"
-                    required={true}
-                    disabled={loading}
-                    maxDropdownHeight={100}
-                    error={errors && errors['type'] && (<FormValidationMessage message={errors['type'][0]} />)}                      
-                    onChange={(e) => setTypeId(e)}
-                />
-                )
-            }
+                    type && (
+                        <Select
+                            label="Choose Type"
+                            // description={description}
+                            dropdownPosition={"bottom"}
+                            data={type}
+                            // defaultValue={dataSource?.country_id}
+                            nothingFound="No City Found"
+                            clearable
+                            defaultValue={dataSource?.types_id}
+                            name="country_id"
+                            required={true}
+                            disabled={loading}
+                            maxDropdownHeight={100}
+                            error={errors && errors['type'] && (<FormValidationMessage message={errors['type'][0]} />)}
+                            onChange={(e) => setTypeId(e)}
+                        />
+                    )
+                }
 
-                <TextInput 
+                <TextInput
                     my={10}
                     placeholder="Enter full name"
                     label="Name"
                     disabled={loading}
                     name="name"
                     defaultValue={id?.name}
-                    error={errors && errors['name'] && <FormValidationMessage message={errors['name'][0]}/>}
+                    error={errors && errors['name'] && <FormValidationMessage message={errors['name'][0]} />}
                     onChange={(e) => setPayload(e.target.value)}
                     required
                 />
 
 
-                <SaveButton 
+                <SaveButton
                     loading={loading}
                     submit={() => submitUpdateCountry()}
                 />

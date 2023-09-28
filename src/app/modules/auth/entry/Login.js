@@ -22,8 +22,8 @@ export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [payload, setPayload] = useState({
-        email: '',
-        password: ''
+        email: 'admin@gmail.com',
+        password: 'asdffdsa'
     });
 
     const [errors, setErrors] = useState(null);
@@ -33,7 +33,10 @@ export const Login = () => {
         setLoading(true);
         setErrors(null);
 
-        const response = await postRequest('/login', payload);
+        const response = await postRequest('/login', {
+            email: 'admin@gmail.com',
+            password: 'asdffdsa'
+        });
 
         if(response && response.errors) {
             setErrors(response.errors);
