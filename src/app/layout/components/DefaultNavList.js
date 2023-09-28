@@ -7,8 +7,9 @@ import {
   IconBrandVisa,
   IconPhotoPlus,
   IconBook2,
-  IconRecycle,
+  IconRecycl
  } from "@tabler/icons-react";
+ 
 
 export const navList = [
       { icon: <IconUser />, label: "User", url: '/user',  children : []},
@@ -19,7 +20,7 @@ export const navList = [
       { icon: <IconBrandVisa />, label: "Visa", url: '/visa',  children : []},
       { icon: <IconPhotoPlus />, label: "Media", url: '/media',  children : []},
       { icon: <IconBook2 />, label: "Book Now", url: '/book-now',  children : []},
-      { icon: <IconRecycle />, label: "Recycle", url: '/bin',  children : []},
+      { icon: <IconRecycle />, label: "Recycle", url: '/bin',  children : []}
     // { icon: <IconBrandGooglePodcasts />, label: "Attendance", url: '/attendance',  children : [
     //   { icon: <IconUserCircle />, label: "Profile", url: '/attendance/profile',  children : []},
     //   { icon: <IconDeviceMobileMessage />, label: "Leave", url: '/attendance/leave',  children : []},

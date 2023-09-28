@@ -27,6 +27,7 @@ export const routers = createBrowserRouter([
       ...mediaRoute,
       ...bookNowRoutes,
       ...recycleRoute,
+
     ],
   },
   {

@@ -33,12 +33,10 @@ export const Login = () => {
         setLoading(true);
         setErrors(null);
 
-        const response = await postRequest('/login', 
-            {
-                email: 'admin@gmail.com',
-                password: 'asdffdsa'
-            }
-        );
+        const response = await postRequest('/login', {
+            email: 'admin@gmail.com',
+            password: 'asdffdsa'
+        });
 
         if(response && response.errors) {
             setErrors(response.errors);
