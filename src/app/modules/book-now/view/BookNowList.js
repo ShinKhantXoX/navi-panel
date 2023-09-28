@@ -7,9 +7,8 @@ import { getReqeust } from "../../../services/apiService";
 import { useDispatch } from "react-redux";
 import { updateNotification } from "../../../redux/notificationSlice";
 import { NavButton } from "../../../components/NavButton";
-import { booknownParams } from "../useBookNowParams";
+import { bookNowParamsInit } from "../useBookNowParams";
 import { minHeight, paginationSize, recordsPerPageOptions } from "../../../config/datatable";
-// import { ItinerarySearch } from "../entry/ItinerarySearch";
 
 export const BookNowList = () => {
     useDocumentTitle("BookNow List");
@@ -17,17 +16,18 @@ export const BookNowList = () => {
     const [loading, setLoading] = useState(false);
     const [records, setRecord] = useState([]);
     const [total, setTotal] = useState(0);
-    const [params, setParams] = useState(booknownParams);
+    const [params, setParams] = useState(bookNowParamsInit);
     const [sortStatus, setSortStatus] = useState({ columnAccessor: 'id', direction: 'asc' });
- 
+
     const navigate = useNavigate();
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
 
     const columns = [
         {
-            accessor: "id", title: "Id", sortable: true, render: ({id}) => {
+            accessor: "id", title: "Id", sortable: true, render: ({ id }) => {
                 return (
-                    <NavLink 
+                    <NavLink
+
                         sx={{
                             color: "blue",
                             textDecoration: 'underline'
@@ -38,6 +38,7 @@ export const BookNowList = () => {
                 )
             }
         },
+
         { accessor: "accommodation", title: 'Accommodation', sortable: true },
         { accessor: "address", title: 'Address', sortable: true, render : ({address}) => {
             return (

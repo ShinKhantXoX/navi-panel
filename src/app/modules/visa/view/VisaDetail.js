@@ -42,6 +42,7 @@ export const VisaDetail = () => {
     useEffect(() => {
         loadingData();
     },[loadingData])
+    console.log("Data =>" , data)
 
     return(
         <Grid gutter={0}>
@@ -81,3 +82,5 @@ export const VisaDetail = () => {
         </Grid>
     )
 }
+
+

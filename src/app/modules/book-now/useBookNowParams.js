@@ -1,4 +1,6 @@
-export const booknownParams = {
+
+export const bookNowParamsInit = {
+
     /** Paginate Query */
     page: 1,
     per_page: 10,
