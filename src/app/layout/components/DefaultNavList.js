@@ -7,7 +7,7 @@ import {
   IconBrandVisa,
   IconPhotoPlus,
   IconBook2,
-  IconRecycl
+  IconRecycle
  } from "@tabler/icons-react";
  
 
