@@ -12,7 +12,7 @@ export const FileButton = ({ title, message, action, callbackUrl, url = null }) 
 
   const [loading, setLoading] = useState(false);
 
-  const [activeImage, setActiveImage] = useState('')
+  const [activeImage, setActiveImage] = useState()
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ export const FileButton = ({ title, message, action, callbackUrl, url = null }) 
         <div className=" flex-wrap">
           {photo?.data?.map((image) => {
 
-            const isActive = activeImage === image?.name;
+            const isActive = activeImage === image?.id;
 
             return (
               <img
@@ -112,7 +112,7 @@ export const FileButton = ({ title, message, action, callbackUrl, url = null }) 
                 onClick={() => 
                   (
                     setSelectPhoto(image),
-                    handleActiveImage(image?.name)
+                    handleActiveImage(image?.id)
                   )
                 }
               />
