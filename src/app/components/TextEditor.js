@@ -35,7 +35,7 @@ export const TextEditor = ({ onEdit, errors, loading, title,dataSource, setValue
     return(
         <>
             <h5>{title ? title : null}</h5>
-            <RichTextEditor editor={editor} h={300} style={{ overflow : 'hidden' }}>
+            <RichTextEditor editor={editor} h={300} style={{ overflowX : 'hidden', overflowY : 'scroll' }}>
                 <RichTextEditor.Toolbar sticky>
                     <RichTextEditor.ControlsGroup>
                         <RichTextEditor.Bold />
