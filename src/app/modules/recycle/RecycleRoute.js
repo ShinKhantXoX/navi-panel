@@ -1,5 +1,6 @@
 import RecycleList from "./view/RecycleBinList";
 import RecycleMedia from "./view/RecycleBinMedia";
+import { RecycleBinMediaDetail } from "./view/RecycleBinMediaDetail";
 import RecycleQuery from "./view/RecycleBinQuery";
 
 
@@ -14,8 +15,15 @@ export const recycleRoute = [
                 element: <RecycleList />
             },
             {
+                path: ":id",
+                element: <RecycleBinMediaDetail />
+            },
+            {
                 path : "media",
-                element : <RecycleMedia />
+                element : <RecycleMedia />,
+                children : [
+
+                ]
             },
             {
                 path : "query",
