@@ -110,8 +110,8 @@ const RecycleBinMediaDetail = () => {
         <Flex direction={"row"} justify={"space-between"} align={"center"}>
           <Text sx={{ fontSize: 20, fontWeight: 500 }}>Recycle Media Detail </Text>
           <Button
-            variant="outline"
-            color="grape.9"
+            variant="filled"
+            color="grape"
             onClick={() => navigate("/bin/media")}
           >
             <IconArrowLeft size={20} />
