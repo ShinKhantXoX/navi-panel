@@ -21,7 +21,7 @@ const RecycleMedia = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
 
   const columns = [
     {
@@ -63,26 +63,73 @@ const RecycleMedia = () => {
       accessor: "id", title: 'Control', sortable: true, render: ({ id }) => {
         return (
           <>
-            <Button
+            {/* <Button
               variant="outline"
               color="blue"
-              onClick={() => navigate(`${id}`)}
+              onClick={() => RestoreMedia(id)}
             >
               Restore
             </Button>
             <Button
               variant="outline"
               color="blue"
-              onClick={() => navigate(`${id}`)}
+              onClick={() => DeleteMedia(id)}
               ml={5}
             >
               Delete
-            </Button>
+            </Button> */}
           </>
         )
       }
     },
   ];
+
+  // const RestoreMedia = async () => {
+  //   setLoading(true);
+  //   setErrors(null);
+
+  //   const response = await putRequest(
+  //     `visa/update/${dataSource?.id}`,
+  //     mainPayload
+  //   );
+
+  //   if (response && response.errors) {
+  //     setErrors(response.errors);
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   if (
+  //     response &&
+  //     (response.status === 401 ||
+  //       response.status === 500 ||
+  //       response.status === 403)
+  //   ) {
+  //     dispatch(
+  //       updateNotification({
+  //         title: "User Update",
+  //         message: response.message,
+  //         status: "fail",
+  //       })
+  //     );
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   if (response && response.status === 200) {
+  //     dispatch(
+  //       updateNotification({
+  //         title: "Update",
+  //         message: response.message,
+  //         status: "success",
+  //       })
+  //     );
+  //     update(response.data);
+  //     setLoading(false);
+  //     navigate("/visa");
+  //     return;
+  //   }
+  // };
 
   const sortStatusHandler = (e) => {
     let updateSortStatus = { ...sortStatus };
