@@ -29,7 +29,7 @@ export const UpdateTour = ({ dataSource, update }) => {
 
   const [packag, setPackage] = useState();
   const [packageId, setPackageId] = useState(
-    dataSource ? dataSource?.package_id : ""
+    dataSource ? dataSource?.packages_id : ""
   );
   const [title, setTitle] = useState(dataSource ? dataSource?.title : "");
   const [tourCode, setTourCode] = useState(
@@ -47,7 +47,7 @@ export const UpdateTour = ({ dataSource, update }) => {
   const [service, setService] = useState(dataSource ? dataSource?.service : "");
   const [mainPayload, setMainPayload] = useState({
     title: dataSource ? dataSource?.title : "",
-    package_id: dataSource ? dataSource?.package_id : "",
+    packages_id: dataSource ? dataSource?.package_id : "",
     photo: dataSource ? dataSource?.photo : "",
     tour_code: dataSource ? dataSource?.tour_code : "",
     destination: dataSource ? dataSource?.destination : "",
@@ -142,7 +142,7 @@ export const UpdateTour = ({ dataSource, update }) => {
 
   useEffect(() => {
     setMainPayload({
-      package_id: packageId,
+      packages_id: packageId,
       title: title,
       tour_code: tourCode,
       destination: destination,
