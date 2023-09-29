@@ -1,14 +1,15 @@
-import { Button, Card, Divider, Flex, Grid, Group, Image, NavLink, Text } from "@mantine/core"
-import { useDocumentTitle } from "@mantine/hooks"
+import { Button, Card, Divider, Flex, Grid, Group, Image, Modal, NavLink, Text } from "@mantine/core"
+import { useCounter, useDisclosure, useDocumentTitle } from "@mantine/hooks"
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import { getReqeust } from "../../../services/apiService";
+import { getReqeust, patchRequest, postRequest } from "../../../services/apiService";
 import { useDispatch } from "react-redux";
 import { updateNotification } from "../../../redux/notificationSlice";
 import { RecycleMediaParams } from "../RecycleMediaParams";
 import { NavButton } from "../../../components/NavButton";
 import { DataTable } from "mantine-datatable";
 import { minHeight, paginationSize, recordsPerPageOptions } from "../../../config/datatable";
+import { IconBadgeSd } from "@tabler/icons-react";
 
 const RecycleMedia = () => {
   useDocumentTitle("RecycleBin Media");
@@ -18,9 +19,10 @@ const RecycleMedia = () => {
   const [total, setTotal] = useState(0);
   const [params, setParams] = useState(RecycleMediaParams);
   const [sortStatus, setSortStatus] = useState({ columnAccessor: 'id', direction: 'asc' });
-
+  const [errors, setErrors] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [opened, { close, open }] = useDisclosure(false);
 
 
   const columns = [
@@ -63,73 +65,123 @@ const RecycleMedia = () => {
       accessor: "id", title: 'Control', sortable: true, render: ({ id }) => {
         return (
           <>
-            {/* <Button
+            <Button
               variant="outline"
               color="blue"
               onClick={() => RestoreMedia(id)}
             >
               Restore
             </Button>
+
+            <Modal opened={opened} onClose={close} closeButtonProps={true} size={"auto"}>
+              <Text>Are your sure to delete!</Text>
+
+
+
+              <Group mt="xl">
+                <Button variant="outline" onClick={() => DeleteMedia(id) } >
+                  Delete
+                </Button>
+
+              </Group>
+            </Modal>
+            <Button variant="outline" color="blue" onClick={open} ml={5}>Delete</Button>
+
             <Button
               variant="outline"
               color="blue"
-              onClick={() => DeleteMedia(id)}
+              onClick={() => navigate(`/bin/${id}`)}
               ml={5}
             >
-              Delete
-            </Button> */}
+              Detail
+            </Button>
           </>
         )
       }
     },
   ];
 
-  // const RestoreMedia = async () => {
-  //   setLoading(true);
-  //   setErrors(null);
+  // Restoring
+  const RestoreMedia = async (id) => {
+    setLoading(true);
+    setErrors(null);
+    //   return;
 
-  //   const response = await putRequest(
-  //     `visa/update/${dataSource?.id}`,
-  //     mainPayload
-  //   );
+    const response = await patchRequest(`photo/restore/${id}`);
+    // console.log("response >> ", response)
+    if (response && response.errors) {
+      setErrors(response.errors);
+      setLoading(false);
+      return;
+    }
 
-  //   if (response && response.errors) {
-  //     setErrors(response.errors);
-  //     setLoading(false);
-  //     return;
-  //   }
+    if (response && (response.status === 500 || response.status === 403)) {
+      dispatch(
+        updateNotification({
+          title: "Error: Booking Restoring!",
+          message: response.message,
+          status: "fail",
+        })
+      );
+      setLoading(false);
+      return;
+    }
 
-  //   if (
-  //     response &&
-  //     (response.status === 401 ||
-  //       response.status === 500 ||
-  //       response.status === 403)
-  //   ) {
-  //     dispatch(
-  //       updateNotification({
-  //         title: "User Update",
-  //         message: response.message,
-  //         status: "fail",
-  //       })
-  //     );
-  //     setLoading(false);
-  //     return;
-  //   }
+    if (response && response.status === 200) {
+      dispatch(
+        updateNotification({
+          title: "Booking Restored",
+          message: response.message,
+          status: "success",
+        })
+      );
+      loadingData()
+      setLoading(false);
+      return;
+    }
+  };
 
-  //   if (response && response.status === 200) {
-  //     dispatch(
-  //       updateNotification({
-  //         title: "Update",
-  //         message: response.message,
-  //         status: "success",
-  //       })
-  //     );
-  //     update(response.data);
-  //     setLoading(false);
-  //     navigate("/visa");
-  //     return;
-  //   }
-  // };
+  // Permanent Deleting
+  const DeleteMedia = async (id) => {
+    setLoading(true);
+    setErrors(null);
+    //   return;
+
+    const response = await postRequest(`photo/force-delete/${id}`);
+    console.log("response >> ", response)
+    if (response && response.errors) {
+      setErrors(response.errors);
+      setLoading(false);
+      return;
+    }
+
+    if (response && (response.status === 500 || response.status === 403)) {
+      dispatch(
+        updateNotification({
+          title: "Error: Booking Deleting Permanently!",
+          message: response.message,
+          status: "fail",
+        })
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (response && response.status === 200) {
+      dispatch(
+        updateNotification({
+          title: "Booking Deleted Permanently!",
+          message: response.message,
+          status: "success",
+        })
+      );
+      loadingData()
+      setLoading(false);
+      return;
+    }
+  };
+  // Permanent Deleting
+
 
   const sortStatusHandler = (e) => {
     let updateSortStatus = { ...sortStatus };
@@ -219,9 +271,7 @@ const RecycleMedia = () => {
               page={params.page}
               paginationSize={paginationSize}
               recordsPerPageOptions={recordsPerPageOptions}
-              onRowClick={(e) => {
-                navigate(`/bin/${e.id}`)
-              }}
+
               onSortStatusChange={(e) => sortStatusHandler(e)}
               onRecordsPerPageChange={(e) => paginateHandler(e, 'per_page')}
               onPageChange={(e) => paginateHandler(e, 'page')}

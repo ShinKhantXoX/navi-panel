@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getReqeust } from "../../../services/apiService";
+import { getReqeust, patchRequest, postRequest } from "../../../services/apiService";
 import { updateNotification } from "../../../redux/notificationSlice";
 import { useDispatch } from "react-redux";
 import {
@@ -64,6 +64,46 @@ const RecycleBinMediaDetail = () => {
   }, [loadingData]);
   console.log(data);
 
+   // Restoring
+   const RestoreMedia = async (id) => {
+    setLoading(true);
+    setErrors(null);
+    //   return;
+
+    const response = await patchRequest(`photo/restore/${id}`);
+    // console.log("response >> ", response)
+    if (response && response.errors) {
+      setErrors(response.errors);
+      setLoading(false);
+      return;
+    }
+
+    if (response && (response.status === 500 || response.status === 403)) {
+      dispatch(
+        updateNotification({
+          title: "Error: Booking Restoring!",
+          message: response.message,
+          status: "fail",
+        })
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (response && response.status === 200) {
+      dispatch(
+        updateNotification({
+          title: "Booking Restored",
+          message: response.message,
+          status: "success",
+        })
+      );
+      loadingData()
+      setLoading(false);
+      return;
+    }
+  };
+
   return (
     <Card p={20} className="card-border" w={500}>
       <Card.Section my={20}>
@@ -95,14 +135,7 @@ const RecycleBinMediaDetail = () => {
           <Text>-</Text>
           <Text>{data?.name}</Text>
         </Flex>
-        <Flex className="trash-container ">
-          <Flex className="trash">
-            <Button variant="filled" radius={"md"}>Restore</Button>
-          </Flex>
-          <Flex className="delete">
-            <Button variant="filled" color="red" radius={"md"}>Delete</Button>
-          </Flex>
-        </Flex>
+        
 
 
       </Card.Section>
