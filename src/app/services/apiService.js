@@ -67,3 +67,9 @@ export const delRequest = async (path) => {
     .then((response) => httpResponseHandler(response))
     .catch((error) => httpReqestHandler(error));
 }
+
+export const patchRequest = async (path) => {
+    return await http.patch(path)
+        .then((response) => httpResponseHandler(response))
+        .catch((error) => httpReqestHandler(error));
+}

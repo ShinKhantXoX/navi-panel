@@ -25,7 +25,8 @@ const RecycleList = () => {
                 backgroundColor : '#f4fa9c',
                 color : '#3f3b3b',
                 padding : '0 10px',
-                borderRadius : '20px'
+                borderRadius : '20px',
+                cursor: 'pointer'
                 }}
                 onClick={() => navigate('/bin/media')}
             >
@@ -41,7 +42,8 @@ const RecycleList = () => {
                 backgroundColor : '#f4fa9c',
                 color : '#3f3b3b',
                 padding : '0 10px',
-                borderRadius : '20px'
+                borderRadius : '20px',
+                cursor: 'pointer'
                 }}
                 onClick={() => navigate('/bin/query')
                 }>
