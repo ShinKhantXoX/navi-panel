@@ -23,23 +23,23 @@ export const BookNowList = () => {
     const dispatch = useDispatch();
 
     const columns = [
-        // {
-        //     accessor: "id", title: "Id", sortable: true, render: ({ id }) => {
-        //         return (
-        //             <NavLink
+        {
+            accessor: "id", title: "Id", sortable: true, render: ({ id }) => {
+                return (
+                    <NavLink
 
-        //                 sx={{
-        //                     color: "blue",
-        //                     textDecoration: 'underline'
-        //                 }}
-        //                 label={id}
-        //                 onClick={() => navigate(`${id}`)}
-        //             />
-        //         )
-        //     }
-        // },
+                        sx={{
+                            color: "blue",
+                            textDecoration: 'underline'
+                        }}
+                        label={id}
+                        onClick={() => navigate(`${id}`)}
+                    />
+                )
+            }
+        },
         
-        { accessor: "id", title: 'ID', sortable: true },
+        // { accessor: "id", title: 'ID', sortable: true },
         { accessor: "accommodation", title: 'Accommodation', sortable: true },
         { accessor: "address", title: 'Address', sortable: true, render : ({address}) => {
             return (

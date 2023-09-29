@@ -10,7 +10,7 @@ export const bookNowRoutes = [
                 element: <BookNowList />
             },
             {
-                path: "media/",
+                path: ":id",
                 element: <BookNowDetail />
             }
         ],
