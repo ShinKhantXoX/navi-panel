@@ -1,9 +1,115 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getReqeust } from "../../../services/apiService";
+import { updateNotification } from "../../../redux/notificationSlice";
+import { useDispatch } from "react-redux";
+import {
+  Button,
+  Card,
+  Center,
+  Divider,
+  FileButton,
+  Flex,
+  Grid,
+  Image,
+  Text,
+  TextInput,
+} from "@mantine/core";
+import { FormValidationMessage } from "../../../components/FormValidationMessage";
+import { IconArrowLeft } from "@tabler/icons-react";
 
 const RecycleBinMediaDetail = () => {
-  return (
-    <div>RecycleBinMediaDetail</div>
-  )
-}
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
 
-export default RecycleBinMediaDetail
+  const [errors, setErrors] = useState();
+
+  const params = useParams();
+  console.log(params);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const loadingData = useCallback(async () => {
+    setLoading(true);
+    const response = await getReqeust(`photo/deleted-photo/${params.id}`);
+    console.log(response);
+
+    if (
+      response &&
+      (response.status === 401 ||
+        response.status === 500 ||
+        response.status === 403)
+    ) {
+      dispatch(
+        updateNotification({
+          title: "Error",
+          message: response.message,
+          status: "fail",
+        })
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (response && response.status === 200) {
+      setData(response.data);
+      setLoading(false);
+      return;
+    }
+  }, [dispatch, params.id]);
+
+  useEffect(() => {
+    loadingData();
+  }, [loadingData]);
+  console.log(data);
+
+  return (
+    <Card p={20} className="card-border" w={500}>
+      <Card.Section my={20}>
+        <Flex direction={"row"} justify={"space-between"} align={"center"}>
+          <Text sx={{ fontSize: 20, fontWeight: 500 }}>Recycle Media Detail </Text>
+          <Button
+            variant="outline"
+            color="grape.9"
+            onClick={() => navigate("/bin/media")}
+          >
+            <IconArrowLeft size={20} />
+          </Button>
+        </Flex>
+
+        <Divider variant="dashed" my={10} />
+      </Card.Section>
+
+      <Card.Section px={10}>
+        <Center>
+          <Image
+            radius="md"
+            src={data?.url}
+          />
+        </Center>
+        <Flex gap={{ base: "sm", sm: "lg" }}>
+          <Text color="dark.2" w={200}>
+            Name{" "}
+          </Text>
+          <Text>-</Text>
+          <Text>{data?.name}</Text>
+        </Flex>
+        <Flex className="trash-container ">
+          <Flex className="trash">
+            <Button variant="filled" radius={"md"}>Restore</Button>
+          </Flex>
+          <Flex className="delete">
+            <Button variant="filled" color="red" radius={"md"}>Delete</Button>
+          </Flex>
+        </Flex>
+
+
+      </Card.Section>
+
+
+    </Card>
+  );
+};
+
+export default RecycleBinMediaDetail;

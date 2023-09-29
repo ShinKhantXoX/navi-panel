@@ -263,3 +263,17 @@
     opacity: 1;
     cursor: pointer;
 }
+
+.trash-container {
+    align-items: center;
+    justify-content: center;
+
+}
+
+.trash {
+    margin: 1rem;
+}
+
+.delete {
+    margin: 1rem;
+}
