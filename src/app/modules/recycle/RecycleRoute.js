@@ -4,8 +4,6 @@ import  RecycleBinMediaDetail  from "./view/RecycleBinMediaDetail";
 import RecycleQuery from "./view/RecycleBinQuery";
 
 
-
-
 export const recycleRoute = [
     {
         path: "bin",
