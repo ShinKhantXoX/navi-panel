@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Badge, Card, Divider, Flex, Grid, Group, Image, NavLink, Text } from "@mantine/core"
+import { Button, badges, Card, Divider, Flex, Grid, Group, Image, NavLink, Text, Modal, Center } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { useNavigate } from "react-router-dom";
 import { DataTable } from "mantine-datatable";
@@ -10,6 +10,8 @@ import { updateNotification } from "../../../redux/notificationSlice";
 // import { NavButton } from "../../../components/NavButton";
 import { minHeight, paginationSize, recordsPerPageOptions } from "../../../config/datatable";
 import { recycleQueryParamsInit } from '../useRecycleQueryParams';
+import { useDisclosure, useCounter } from '@mantine/hooks';
+
 
 export const RecycleQuery = () => {
   useDocumentTitle("Book-Now Recycle List");
@@ -22,7 +24,7 @@ export const RecycleQuery = () => {
   const [errors, setErrors] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [opened, { close, open }] = useDisclosure(false); //for alert
   // Restoring
   const RestoreBtnClick = async (id) => {
     setLoading(true);
@@ -61,9 +63,11 @@ export const RecycleQuery = () => {
       setLoading(false);
       return;
     }
+    
   };
   // Restoring
 
+  
   // Permanent Deleting
   const ForceDeleteBtnClick = async (id) => {
     setLoading(true);
@@ -184,6 +188,8 @@ export const RecycleQuery = () => {
     // control
     {
       accessor: "id", title: 'Options', sortable: false, render: ({ id }) => {
+        
+
         return (
           <>
             <Button
@@ -194,15 +200,18 @@ export const RecycleQuery = () => {
               Restore
             </Button>
 
-            <Button
-              variant="filled"
-              color="red"
-              onClick={() => ForceDeleteBtnClick(id)}
-              ml={5}
-            >
-              Delete
-            </Button>
+          {/* alert */}
+            <Modal opened={opened} onClose={close} size="auto" title="Confirm Delete">
+              <Text order={2} mb={20} fz={'sm'}>Selected booking will be deleted permanently. Are you sure to delete? </Text>
+              <Center>
+                <Button color='red' variant='filled' onClick={() => ForceDeleteBtnClick(id)}>Confirm</Button>
+              </Center>
+              
+            </Modal>
+
+            <Button onClick={open} variant="filled" color="red" ml={5}>Delete</Button>
           </>
+          // alert
         )
       }
     },
@@ -256,6 +265,7 @@ export const RecycleQuery = () => {
   }, [params, loadingData]);
   
   return (
+    
     <Grid gutter={0}>
       <Grid.Col span={12} my={10}>
         <Flex
@@ -302,5 +312,6 @@ export const RecycleQuery = () => {
         </Card>
       </Grid.Col>
     </Grid>
+    
   )
 }
