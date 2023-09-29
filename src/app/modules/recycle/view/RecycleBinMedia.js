@@ -1,6 +1,6 @@
 import { Button, Card, Divider, Flex, Grid, Group, Image, NavLink, Text } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { getReqeust } from "../../../services/apiService";
 import { useDispatch } from "react-redux";
@@ -21,9 +21,9 @@ const RecycleMedia = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
 
   const columns = [
-
     {
       accessor: "url", title: 'Photo', sortable: true, render: ({ url }) => {
         return (
@@ -173,7 +173,7 @@ const RecycleMedia = () => {
               paginationSize={paginationSize}
               recordsPerPageOptions={recordsPerPageOptions}
               onRowClick={(e) => {
-                navigate(`${e.id}`)
+                navigate(`/bin/${e.id}`)
               }}
               onSortStatusChange={(e) => sortStatusHandler(e)}
               onRecordsPerPageChange={(e) => paginateHandler(e, 'per_page')}

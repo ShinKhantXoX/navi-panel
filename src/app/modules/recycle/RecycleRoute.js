@@ -1,6 +1,6 @@
 import RecycleList from "./view/RecycleBinList";
 import RecycleMedia from "./view/RecycleBinMedia";
-import { RecycleBinMediaDetail } from "./view/RecycleBinMediaDetail";
+import  RecycleBinMediaDetail  from "./view/RecycleBinMediaDetail";
 import RecycleQuery from "./view/RecycleBinQuery";
 
 
