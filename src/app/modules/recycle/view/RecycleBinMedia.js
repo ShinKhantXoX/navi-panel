@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Flex, Grid, Group, Image, Modal, NavLink, Text } from "@mantine/core"
+import { Button, Card, Center, Divider, Flex, Grid, Group, Image, Modal, NavLink, Text } from "@mantine/core"
 import { useCounter, useDisclosure, useDocumentTitle } from "@mantine/hooks"
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
@@ -66,29 +66,32 @@ const RecycleMedia = () => {
         return (
           <>
             <Button
-              variant="outline"
-              color="blue"
+              variant="filled"
+              color="green"
               onClick={() => RestoreMedia(id)}
             >
               Restore
             </Button>
+            
+            <Modal opened={opened} onClose={close} closeButtonProps={true} size={"auto"} title="Confirm Delete">
+              <Text order={2} mb={20} fz={'sm'}>Selected file will be deleted permanently. Are you sure to delete? </Text>
 
-            <Modal opened={opened} onClose={close} closeButtonProps={true} size={"auto"}>
-              <Text>Are your sure to delete!</Text>
 
 
-
-              <Group mt="xl">
-                <Button variant="outline" onClick={() => DeleteMedia(id) } >
+              
+                <Center>
+                  <Button ml={5} variant="filled" color="red" onClick={() => DeleteMedia(id) } >
                   Delete
                 </Button>
+                </Center>
+                
 
-              </Group>
+              
             </Modal>
-            <Button variant="outline" color="blue" onClick={open} ml={5}>Delete</Button>
+            <Button variant="filled" color="red" onClick={open} ml={5}>Delete</Button>
 
             <Button
-              variant="outline"
+              variant="filled"
               color="blue"
               onClick={() => navigate(`/bin/${id}`)}
               ml={5}
